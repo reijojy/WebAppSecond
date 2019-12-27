@@ -1,0 +1,37 @@
+﻿@model WebAppSecond.Models.Tuotteet
+
+@{
+    ViewBag.Title = "Poista";
+}
+
+<h2>Tuotteen poisto</h2>
+
+<h3>Haluatko varmasti poistaa tämän tuotteen?</h3>
+<div>
+    <h4>Tuotteet</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Nimi)</dt>
+        <dd>@Html.DisplayFor(model => model.Nimi)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Ahinta)</dt>
+        <dd>@Html.DisplayFor(model => model.Ahinta)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Kuva)</dt>
+        <dd>@Html.DisplayFor(model => model.Kuva)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Kuvalinkki)</dt>
+        <dd>@Html.DisplayFor(model => model.Kuvalinkki)</dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Poista" class="btn btn-default" /> |
+            @Html.ActionLink("Takaisin tuotelistalle", "Index")
+        </div>
+
+    }
+    <label class="text-danger">
+        @ViewBag.RemoveFailed
+    </label>
+</div>

@@ -203,7 +203,8 @@ csx/
 # Microsoft Azure Emulator
 ecf/
 rcf/
-
+web.config
+Web.config
 # Windows Store app package directories and files
 AppPackages/
 BundleArtifacts/

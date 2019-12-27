@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-inverse ">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">TilausDB harjoitustyö @ViewBag.LoggedText</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Yleistä tietoa<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Home">Perus</a></li>
+                            <li><a href="/Home/About">Lisätiedot</a></li>
+                            <li><a href="/Home/Contact">Yhteystiedot</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tietokannat<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Products">Tuotteet</a></li>
+                            <li><a href="/Asiakas">Asiakas</a></li>
+                            <li><a href="/Postinumero">Postinumero</a></li>
+                            <li><a href="/Tilaus">Tilaukset</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Koodari opiskelijoille<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://getbootstrap.com/docs/3.4/getting-started/" target="_blank">Bootstrap aloituspaketti</a></li>
+                            <li><a href="https://bootswatch.com/" target="_blank">Bootswatch</a></li>
+                            <li><a href="https://www.udemy.com/topic/c-sharp/" target="_blank">Udemy C# kurssit</a></li>
+                            <li><a href="https://www.w3schools.com/" target="_blank">W3SCHOOLS</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="/Home/Login">Login</a></li>
+                    <li><a href="/Home/Logout">Logout</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+   
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Jyrki Reijonen</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

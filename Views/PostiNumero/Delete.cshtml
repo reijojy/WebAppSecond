@@ -1,0 +1,34 @@
+﻿@model WebAppSecond.Models.Postitoimipaikat
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Haluatko varsti poistaa postinumeron </h3>
+<div>
+    <h4>Postitoimipaikat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Postinumero)</dt>
+        <dd>@Html.DisplayFor(model => model.Postinumero)</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Postitoimipaikka)</dt>
+        <dd>@Html.DisplayFor(model => model.Postitoimipaikka)</dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Poista" class="btn btn-default" /> |
+            @Html.ActionLink("Paluu listalle", "Index")
+        </div>
+    }
+    <label class="text-danger">
+        @ViewBag.RemoveFailed
+    </label>
+</div>

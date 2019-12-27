@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebAppSecond.Models.Postitoimipaikat>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Postitoimipaikt</h2>
+
+<p>
+    @Html.ActionLink("Uusi postitoimipaikka", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Postinumero)</th>
+        <th>@Html.DisplayNameFor(model => model.Postitoimipaikka)</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.Postinumero)</td>
+        <td>@Html.DisplayFor(modelItem => item.Postitoimipaikka)</td>
+        <td>
+            @Html.ActionLink("Muokkaa", "Edit", new { id = item.Postinumero }) |
+            @Html.ActionLink("Poista", "Delete", new { id = item.Postinumero })
+        </td>
+    </tr>
+}
+
+</table>

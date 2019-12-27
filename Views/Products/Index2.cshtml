@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebAppSecond.Models.Tuotteet>
+<!-- Varmuuskopio 22.12 -->
+@{
+    ViewBag.Title = "Index";
+
+}
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".showTuoteId").click(function () {
+                var tuoteId = $(this).data("tuoteid");
+                alert(tuoteId);
+            });
+        });
+        $(function () {
+            $(".poistaTuote").click(function () {
+                var tuoteId = $(this).data("tuoteid");
+                alert("Poistetaan: " + tuoteId);
+            });
+        });
+    </script>
+}
+<h2>TilausDB tuotteet</h2>
+<p>@Html.ActionLink("Uusi tuote", "Create")</p>
+</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Tuotetunnus</th>
+            <th>Tuotteen nimi</th>
+            <th>A-hinta</th>
+            <th>Kuva</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (WebAppSecond.Models.Tuotteet tuote in Model)
+        {
+        <tr>
+            <td>@tuote.TuoteID</td>
+            <td>@tuote.Nimi</td>
+            <td>@tuote.Ahinta</td>
+            <!--<td>@tuote.Kuvalinkki</td> -->
+            <td><img style="height: 200px; width: 100%; display: block;" alt="Card image" src="@tuote.Kuvalinkki" alt="@tuote.Kuvalinkki"></td>
+            <td>
+                @Html.ActionLink("Muokkaa", "Edit", new { id = tuote.TuoteID }) |
+                @Html.ActionLink("Poista", "Delete", new { id = tuote.TuoteID })
+            </td>
+            @*<td><button class="btn btn-success" onclick='naytaValittuAsiakas("@tuote.Nimi")'>Muokkaa</button></td>
+        <td><button class="btn btn-primary showTuoteId" data-tuoteID="@tuote.TuoteID">PÖÖ</button></td>
+        <td><button class="btn btn-danger poistaTuote" data-tuoteID="@tuote.TuoteID">Poista</button></td>*@
+        </tr>
+        }
+</table>
+<script>
+    function naytaValittuAsiakas(TuoteNimi) {
+        alert(TuoteNimi);
+    }
+</script>
