@@ -1,0 +1,32 @@
+﻿@model WebAppSecond.Models.Tilausrivit
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Haluatko varmasti poistaa tilausrivin ?</h3>
+<div>
+    <h4>Tilausrivit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Maara)</dt>
+        <dd>@Html.DisplayFor(model => model.Maara)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Ahinta)</dt>
+        <dd>@Html.DisplayFor(model => model.Ahinta)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Tilaukset.Toimitusosoite)</dt>
+        <dd> @Html.DisplayFor(model => model.Tilaukset.Toimitusosoite)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Tuotteet.Nimi)</dt>
+        <dd>@Html.DisplayFor(model => model.Tuotteet.Nimi)</dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Poista" class="btn btn-default" /> |
+            @Html.ActionLink("Taiakisin listalle", "Index")
+        </div>
+    }
+</div>

@@ -26,6 +26,7 @@ namespace WebAppSecond.Controllers
                 ViewBag.LoggedText = "Et ole kirjautunut sisään";
                 return RedirectToAction("login", "home");
             }
+            Session["Tilaus"] = 0;
             List<Tilaukset> model = db.Tilauksets.ToList();
             return View(model);
         }
@@ -77,7 +78,6 @@ namespace WebAppSecond.Controllers
                 });
             }
             ViewBag.Postinumero = new SelectList(postiToimiPaikat_sl, "Value", "Text");
-            //ViewBag.Postinumero = new SelectList(db.Postitoimipaikats, "Postinumero", "Postitoimipaikka");
             return View();
         }
         [HttpPost]

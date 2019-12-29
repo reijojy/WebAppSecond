@@ -30,8 +30,9 @@
         <td>@Html.DisplayFor(modelItem => item.Asiakkaat.Nimi)</td>
         <td>@Html.DisplayFor(modelItem => item.Postitoimipaikat.Postitoimipaikka)</td>
         <td>
-            @Html.ActionLink("Muokkaa", "Edit", new { id=item.TilausID }) |
-            @Html.ActionLink("Poista", "Delete", new { id=item.TilausID })
+            @Html.ActionLink("Tilaus rivit", "../TilausRivi/Index", new { id = item.TilausID }) |
+            @Html.ActionLink("Muokkaa", "Edit", new { id = item.TilausID }) |
+            @Html.ActionLink("Poista", "Delete", new { id = item.TilausID })
         </td>
     </tr>
 }
