@@ -16,15 +16,8 @@ namespace WebAppSecond.Controllers
         // GET: PostiNumero
         public ActionResult Index()
         {
-            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
-            {
-                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
-            }
-            else
-            {
-                ViewBag.LoggedText = "Et ole kirjautunut sisään";
-                return RedirectToAction("login", "home");
-            }
+            if (!setLogInStatus()) return RedirectToAction("login", "home");
+            
             List<Postitoimipaikat> model = db.Postitoimipaikats.ToList();
             return View(model);
         }
@@ -33,6 +26,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Postitoimipaikat postiToimiPaikka = db.Postitoimipaikats.Find(id);
             if (postiToimiPaikka == null) return HttpNotFound();
+            setLogInStatus();
             return View(postiToimiPaikka);
         }
         [HttpPost]
@@ -49,6 +43,7 @@ namespace WebAppSecond.Controllers
         }
         public ActionResult Create()
         {
+            setLogInStatus();
             return View();
         }
         [HttpPost]
@@ -68,6 +63,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Postitoimipaikat postiToimiPaikka = db.Postitoimipaikats.Find(id);
             if (postiToimiPaikka == null) return HttpNotFound();
+            setLogInStatus();
             return View(postiToimiPaikka);
         }
         [HttpPost, ActionName("Delete")]
@@ -77,7 +73,7 @@ namespace WebAppSecond.Controllers
             ViewBag.RemoveFailed = "";
             Boolean isRemoved = true;
             Postitoimipaikat postiToimiPaikka = db.Postitoimipaikats.Find(id);
-           
+            setLogInStatus();
             try
             {
                 db.Postitoimipaikats.Remove(postiToimiPaikka);
@@ -98,6 +94,19 @@ namespace WebAppSecond.Controllers
             else
                 ViewBag.RemoveFailed = "Postinumeron poisto ei onnistunut";
             return View(postiToimiPaikka);
+        }
+        private Boolean setLogInStatus()
+        {
+            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
+            {
+                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
+                return true;
+            }
+            else
+            {
+                ViewBag.LoggedText = "Et ole kirjautunut sisään";
+                return false;
+            }
         }
     }
 }

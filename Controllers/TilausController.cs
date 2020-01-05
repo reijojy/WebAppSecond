@@ -17,15 +17,8 @@ namespace WebAppSecond.Controllers
         // GET: Tilaus
         public ActionResult Index()
         {
-            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
-            {
-                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
-            }
-            else
-            {
-                ViewBag.LoggedText = "Et ole kirjautunut sisään";
-                return RedirectToAction("login", "home");
-            }
+            if (!setLogInStatus()) return RedirectToAction("login", "home");
+            
             Session["Tilaus"] = 0;
             List<Tilaukset> model = db.Tilauksets.ToList();
             return View(model);
@@ -35,6 +28,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Tilaukset tilaus = db.Tilauksets.Find(id);
             if (tilaus == null) return HttpNotFound();
+            setLogInStatus();
             //ViewBag.tunniste = tilaus.AsiakasID;
             ViewBag.AsiakasID = new SelectList(db.Asiakkaats, "AsiakasID", "Nimi", tilaus.AsiakasID);
 
@@ -65,8 +59,8 @@ namespace WebAppSecond.Controllers
         }
         public ActionResult Create()
         {
+            setLogInStatus();
             ViewBag.AsiakasID = new SelectList(db.Asiakkaats, "AsiakasID", "Nimi");
-
             // Postitoimipaikkojen selectbox
             List<SelectListItem> postiToimiPaikat_sl = new List<SelectListItem>();
             foreach (Postitoimipaikat postitoimipaikka in db.Postitoimipaikats)
@@ -97,6 +91,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Tilaukset tilaus = db.Tilauksets.Find(id);
             if (tilaus == null) return HttpNotFound();
+            setLogInStatus();
             return View(tilaus);
         }
         [HttpPost, ActionName("Delete")]
@@ -125,6 +120,19 @@ namespace WebAppSecond.Controllers
             else 
                 ViewBag.RemoveFailed = "Tilauksen poisto ei onnistunut";
             return View(tilaus);
+        }
+        private Boolean setLogInStatus()
+        {
+            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
+            {
+                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
+                return true;
+            }
+            else
+            {
+                ViewBag.LoggedText = "Et ole kirjautunut sisään";
+                return false;
+            }
         }
     }
 }

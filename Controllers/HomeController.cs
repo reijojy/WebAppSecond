@@ -11,30 +11,27 @@ namespace WebAppSecond.Controllers
     {
         public ActionResult Index()
         {
-            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
-            {
-                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
-            }
-            else ViewBag.LoggedText = "Et ole kirjautunut sisään";
-
+            setLogInStatus();
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+            setLogInStatus();
+            ViewBag.Message = "Applikaation tiedot.";
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            setLogInStatus();
+            ViewBag.Message = "Yhteystiedot.";
 
             return View();
         }
         public ActionResult Login()
         {
+            setLogInStatus();
             return View();
         }
         [HttpPost]
@@ -69,6 +66,14 @@ namespace WebAppSecond.Controllers
             Session.Abandon();
             ViewBag.LoggedStatus = "Out";
                         return RedirectToAction("Index", "Home"); //Uloskirjautumisen jälkeen pääsivulle
+        }
+        private void setLogInStatus()
+        {
+            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
+            {
+                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
+            }
+            else ViewBag.LoggedText = "Et ole kirjautunut sisään";
         }
     }
 }

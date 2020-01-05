@@ -16,25 +16,17 @@ namespace WebAppSecond.Controllers
         // GET: Asiakas
         public ActionResult Index()
         {
-            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
-            {
-                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
-            }
-            else
-            {
-                ViewBag.LoggedText = "Et ole kirjautunut sisään";
-                return RedirectToAction("login", "home");
-            }
+            if (!setLogInStatus()) return RedirectToAction("login", "home");
+                    
             List<Asiakkaat> model = db.Asiakkaats.ToList();
             return View(model);
         }
         public ActionResult Edit(int? id)
         {
-
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Asiakkaat asiakas = db.Asiakkaats.Find(id);
             if (asiakas == null) return HttpNotFound();
-
+            setLogInStatus();
             List<SelectListItem> postiToimiPaikat_sl = new List<SelectListItem>();
             foreach (Postitoimipaikat postitoimipaikka in db.Postitoimipaikats)
             {
@@ -62,6 +54,7 @@ namespace WebAppSecond.Controllers
         }
         public ActionResult Create()
         {
+            setLogInStatus();
             // Luodaan combobox postinumeroille
             List<SelectListItem> postiToimiPaikat_sl = new List<SelectListItem>();
 
@@ -93,6 +86,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Asiakkaat asiakas = db.Asiakkaats.Find(id);
             if (asiakas == null) return HttpNotFound();
+            setLogInStatus();
             return View(asiakas);
         }
         [HttpPost, ActionName("Delete")]
@@ -120,8 +114,22 @@ namespace WebAppSecond.Controllers
             if (isRemoved)
                 return RedirectToAction("Index");
             else
-                ViewBag.RemoveFailed = "ASiakkaan ei onnistunut";
+                ViewBag.RemoveFailed = "Asiakkaan poisto ei onnistunut";
             return View(asiakas);
          }
+        private Boolean setLogInStatus()
+        {
+            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
+            {
+                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
+                return true;
+            }
+            else
+            {
+                ViewBag.LoggedText = "Et ole kirjautunut sisään";
+                return false;
+            }
+        }
+        
     }
 }

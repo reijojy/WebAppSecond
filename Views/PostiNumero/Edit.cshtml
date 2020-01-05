@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>Postitoimipaikat</h4>
+    <h4>Postitoimipaikan ylläpito</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Postinumero)
@@ -40,5 +40,5 @@
 }
 
 <div>
-    @Html.ActionLink("Takaisin listalle", "Index")
+    @Html.ActionLink("Paluu postinumero listalle", "Index")
 </div>

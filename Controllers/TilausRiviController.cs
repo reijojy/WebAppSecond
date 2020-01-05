@@ -16,6 +16,8 @@ namespace WebAppSecond.Controllers
         // GET: TilausRivi
         public ActionResult Index(int? id)
         {
+            if (!setLogInStatus()) return RedirectToAction("login", "home");
+            
             if (id == null)
             {
                 ViewBag.TilausId = Session["Tilaus"];
@@ -57,6 +59,7 @@ namespace WebAppSecond.Controllers
             ViewBag.TuoteID = new SelectList(db.Tuotteets, "TuoteID", "Nimi");
             ViewBag.TilausId = Session["Tilaus"];
             ViewBag.AsiakasId = Session["Asiakas"];
+            setLogInStatus();
             //Tilausrivit tilausrivi = new Tilausrivit();
             //tilausrivi.TilausID = ViewBag.TilausId;
             return View();
@@ -85,6 +88,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Tilausrivit tilausRivi = db.Tilausrivits.Find(id);
             if (tilausRivi == null) return HttpNotFound();
+            setLogInStatus();
             // Combobox tuotteelle
             ViewBag.TuoteID = new SelectList(db.Tuotteets, "TuoteID", "Nimi", tilausRivi.TuoteID);
             return View(tilausRivi);
@@ -111,6 +115,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Tilausrivit tilausRivi = db.Tilausrivits.Find(id);
             if (tilausRivi == null) return HttpNotFound();
+            setLogInStatus();
             return View(tilausRivi);
          }
 
@@ -122,6 +127,19 @@ namespace WebAppSecond.Controllers
             db.Tilausrivits.Remove(tilausRivi);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        private Boolean setLogInStatus()
+        {
+            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
+            {
+                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
+                return true;
+            }
+            else
+            {
+                ViewBag.LoggedText = "Et ole kirjautunut sisään";
+                return false;
+            }
         }
     }
 }

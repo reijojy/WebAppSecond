@@ -16,15 +16,8 @@ namespace WebAppSecond.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
-            {
-                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
-            }
-            else
-            {
-                ViewBag.LoggedText = "Et ole kirjautunut sisään";
-                return RedirectToAction("login", "home");
-            }
+            if (!setLogInStatus()) return RedirectToAction("login", "home");
+           
             List<Tuotteet> model = db.Tuotteets.ToList();
             db.Dispose();
             return View(model);
@@ -34,6 +27,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Tuotteet tuote = db.Tuotteets.Find(id);
             if (tuote == null) return HttpNotFound();
+            setLogInStatus();
             return View(tuote);
         }
         [HttpPost]
@@ -50,6 +44,7 @@ namespace WebAppSecond.Controllers
         }
         public ActionResult Create()
         {
+            setLogInStatus();
             return View();
         }
         [HttpPost]
@@ -69,6 +64,7 @@ namespace WebAppSecond.Controllers
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             Tuotteet tuote = db.Tuotteets.Find(id);
             if (tuote == null) return HttpNotFound();
+            setLogInStatus();
             return View(tuote);
         }
         [HttpPost, ActionName("Delete")]
@@ -99,6 +95,19 @@ namespace WebAppSecond.Controllers
             else
                 ViewBag.RemoveFailed = "Tuotteen poisto ei onnistunut";
             return View(tuote);
+        }
+        private Boolean setLogInStatus()
+        {
+            if (Session["LoggedStatus"] != null && Session["LoggedStatus"] == "In")
+            {
+                ViewBag.LoggedText = "Kirjautunut sisään: " + Session["UserName"] + " " + Session["LoggetTime"];
+                return true;
+            }
+            else
+            {
+                ViewBag.LoggedText = "Et ole kirjautunut sisään";
+                return false;
+            }
         }
     }
 }
