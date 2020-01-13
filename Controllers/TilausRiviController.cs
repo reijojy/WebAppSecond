@@ -35,15 +35,18 @@ namespace WebAppSecond.Controllers
             IEnumerable<Tilausrivit> model = from tr in db.Tilausrivits where tr.TilausID == id select tr;
             // Lasketaan rivien määrä ja yhteissumma
             int riviLkm = riviLkm = model.Count();  
-            double tilausSumma = 0.00;
+            decimal tilausSumma = 0.00m;
             foreach(Tilausrivit tilausrivi in model)
             {
-                double d = Convert.ToDouble(tilausrivi.Ahinta);
+                decimal d = Convert.ToDecimal(tilausrivi.Ahinta);
                 double dMaara = Convert.ToDouble(tilausrivi.Maara);
-                tilausSumma += d * dMaara;
+                tilausSumma += d * Convert.ToDecimal(dMaara);
             }
-            ViewBag.RiviLkm = riviLkm.ToString(new CultureInfo("fi-FI"));
-            ViewBag.TilausSumma = tilausSumma.ToString(new CultureInfo("fi-FI"));
+            CultureInfo ci = new CultureInfo("fi-FI");
+            ci.NumberFormat.NumberDecimalDigits = 2;
+            ci.NumberFormat.CurrencySymbol = "EUR";
+            ViewBag.RiviLkm = riviLkm.ToString(ci);
+            ViewBag.TilausSumma = tilausSumma.ToString("C", ci);
             return View(model);
         }
 
